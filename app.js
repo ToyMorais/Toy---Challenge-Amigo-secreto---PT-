@@ -9,6 +9,9 @@ let resultadoIndex = 0;
 function exibirTextoNaTela(tag, title) {
     let campo = document.querySelector(tag);
     campo.innerHTML = title;
+    // ######### executa script no HTML para ler a tela ###########
+    responsiveVoice.speak(title, "Brazilian Portuguese Female", {rate: 1.2});
+    // ######### fim do comando para ler a tela ###########   
 }
 function exibirMensagemInicial() {
     exibirTextoNaTela("h1", "Amigo Secreto");
