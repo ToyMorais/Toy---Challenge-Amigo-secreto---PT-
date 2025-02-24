@@ -29,22 +29,23 @@ function limparCampo() {
 }
 function exibirMensagemInicial() {
     exibirTextoNaTela("h1", "Amigo Secreto");
-    exibirTextoNaTela("h2", `Digite o nome dos seus amigos.`);    
+    exibirTextoNaTela("h2", `Digite o nome dos seus amigos.`);
 }
 exibirMensagemInicial();
 
 function adicionarAmigo() {
     let nome = document.querySelector("input").value;
-    if (listaAmigos.includes(nome)) { 
+    if (listaAmigos.includes(nome)) {
         exibirTextoNaTela("h2", `Você já incluiu este amigo na lista!`);
-    } else { 
-        listaAmigos.push(nome);    
+    } else {
+        listaAmigos.push(nome);
         exibirTextoNaTela("h2", "Incluia outro amigo!");
-        exibirTextoNaTela("ul", listaAmigos.join(", "));  
+        exibirTextoNaTela("ul", listaAmigos.join(", "));
+        console.log(`Lista Amidos: ${listaAmigos}`);
     }
-limparCampo();  
-
+    limparCampo();
 }
+
 function sortearAmigo() {
     let quantidadeDeAmigos = listaAmigos.length;
     if (quantidadeDeAmigos < 2) {
@@ -54,14 +55,17 @@ function sortearAmigo() {
         if (listaAmigosSorteados.includes(amigoSorteado)) {
             sortearAmigo();
         } else {
-            listaAmigosSorteados.push(amigoSorteado);          
-            resultado = `O seu amigo secreto é ${amigoSorteado}`;
-            resultadoIndex++;
-            if (resultadoIndex < quantidadeDeAmigos) {               
-                sortearAmigo();
-            } else {
-                exibirTextoNaTela("h2", resultado);
-            }
+            listaAmigosSorteados.push(amigoSorteado);
+            console.log(`Lista Sorteado: ${listaAmigosSorteados}`);
+            resultado = `O seu amigo secreto é ${amigoSorteado}. `;
+            exibirTextoNaTela("h2", resultado);
         }
+    }
+    if (resultadoIndex > quantidadeDeAmigos) {
+        exibirTextoNaTela("h2", "Todos os amigos foram sorteados!");
+        setTimeout(ywindow.location.reload(), 4000);
+    } else {
+        console.log (`Resultado Index: ${resultadoIndex} - Quantidade de Amigos: ${quantidadeDeAmigos}`);
+        resultadoIndex++;
     }
 }
