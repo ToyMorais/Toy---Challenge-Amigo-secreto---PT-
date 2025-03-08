@@ -5,6 +5,7 @@ let listaAmigos = [];
 let listaAmigosSorteados = [];
 let resultado = "";
 let resultadoIndex = 0;
+let botaoSortear = "sortear";
 
 function exibirTextoNaTela(tag, title) {
     let campo = document.querySelector(tag);
@@ -35,37 +36,53 @@ exibirMensagemInicial();
 
 function adicionarAmigo() {
     let nome = document.querySelector("input").value;
-    if (listaAmigos.includes(nome)) {
-        exibirTextoNaTela("h2", `Você já incluiu este amigo na lista!`);
+    if (nome == "") {
+        exibirTextoNaTela("h2", `Por favor, insira um nome!`);
+        return;
     } else {
-        listaAmigos.push(nome);
-        exibirTextoNaTela("h2", "Incluia outro amigo!");
-        exibirTextoNaTela("ul", listaAmigos.join(", "));
-        console.log(`Lista Amidos: ${listaAmigos}`);
+        if (listaAmigos.includes(nome)) {
+            exibirTextoNaTela("h2", `Você já incluiu este amigo na lista!`);
+        } else {
+            listaAmigos.push(nome);
+            exibirTextoNaTela("h2", "Incluia outro amigo!");
+            exibirTextoNaTela("ul", listaAmigos.join(", "));
+            console.log(`Lista Amidos: ${listaAmigos}`);
+        }
     }
     limparCampo();
 }
 
 function sortearAmigo() {
-    let quantidadeDeAmigos = listaAmigos.length;
-    if (quantidadeDeAmigos < 2) {
-        exibirTextoNaTela("h2", `Você precisa incluir pelo menos 2 amigos!`);
+    resultadoIndex++;
+    if (botaoSortear === "reiniciar") {
+        setTimeout(() => window.location.reload(), 1000);
+        return;
     } else {
-        let amigoSorteado = listaAmigos[Math.floor(Math.random() * quantidadeDeAmigos)];
-        if (listaAmigosSorteados.includes(amigoSorteado)) {
-            sortearAmigo();
+        let quantidadeDeAmigos = listaAmigos.length;
+        if (quantidadeDeAmigos < 2) {
+            exibirTextoNaTela("h2", `Você precisa incluir pelo menos 2 amigos!`);
         } else {
-            listaAmigosSorteados.push(amigoSorteado);
-            console.log(`Lista Sorteado: ${listaAmigosSorteados}`);
-            resultado = `O seu amigo secreto é ${amigoSorteado}. `;
-            exibirTextoNaTela("h2", resultado);
+            let amigoSorteado = listaAmigos[Math.floor(Math.random() * quantidadeDeAmigos)];
+            if (listaAmigosSorteados.includes(amigoSorteado)) {
+                sortearAmigo();
+            } else {
+                listaAmigosSorteados.push(amigoSorteado);
+                console.log(`Lista Sorteado: ${listaAmigosSorteados}`);
+                resultado = `O seu amigo secreto é ${amigoSorteado}. `;
+                exibirTextoNaTela("h2", resultado);
+                if (resultadoIndex >= listaAmigos.length) {
+                    exibirTextoNaTela("h2", "Todos os amigos foram sorteados!");
+                    console.log("Alterando rótulo do botão para 'Reiniciar'");
+                    let botao = document.getElementById("sortear");
+                    botao.innerHTML = "Reiniciar";
+                    botao.style.display = "flex";
+                    botao.style.justifyContent = "center";
+                    botao.style.alignItems = "center";
+                    botaoSortear = "reiniciar";
+                } else {
+                    console.log(`Indice: ${resultadoIndex}` + ` Quantidade de Amigos: ${quantidadeDeAmigos}`);
+                }
+            }
         }
-    }
-    if (resultadoIndex > quantidadeDeAmigos) {
-        exibirTextoNaTela("h2", "Todos os amigos foram sorteados!");
-        setTimeout(ywindow.location.reload(), 4000);
-    } else {
-        console.log (`Resultado Index: ${resultadoIndex} - Quantidade de Amigos: ${quantidadeDeAmigos}`);
-        resultadoIndex++;
     }
 }
