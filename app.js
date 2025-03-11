@@ -1,5 +1,6 @@
-//O principal objetivo deste desafio é fortalecer suas habilidades em lógica de programação. Aqui você deverá desenvolver a lógica para resolver o problema.
 //Jogo Amigo Secreto
+// Projeto by Antonio Morais - Challenge do aluno
+//O principal objetivo deste desafio é fortalecer suas habilidades em lógica de programação. Aqui você deverá desenvolver a lógica para resolver o problema.
 
 let listaAmigos = [];
 let listaAmigosSorteados = [];
@@ -23,30 +24,42 @@ function exibirTextoNaTela(tag, title) {
     }
     // ######### fim do script ########### 
 }
+
 function limparCampo() {
-    nome = document.querySelector("input");
-    nome.value = "";
-    nome.focus();
+    amigo = document.querySelector("input");
+    amigo.value = "";
+    amigo.focus();
 }
+
 function exibirMensagemInicial() {
     exibirTextoNaTela("h1", "Amigo Secreto");
     exibirTextoNaTela("h2", `Digite o nome dos seus amigos.`);
 }
 exibirMensagemInicial();
 
+function exibirListaDeAmigos() {
+    let lista = document.querySelector("ul");
+    lista.innerHTML = ""; // Limpar a lista existente
+    for (let amigo of listaAmigos) {
+        let item = document.createElement("li");
+        item.textContent = amigo;
+        lista.appendChild(item);
+    }
+}
+
 function adicionarAmigo() {
-    let nome = document.querySelector("input").value;
-    if (nome == "") {
-        exibirTextoNaTela("h2", `Por favor, insira um nome!`);
+    let amigo = document.querySelector("input").value;
+    if (amigo == "") {
+        exibirTextoNaTela("h2", `Por favor, insira um amigo!`);
         return;
     } else {
-        if (listaAmigos.includes(nome)) {
+        if (listaAmigos.includes(amigo)) {
             exibirTextoNaTela("h2", `Você já incluiu este amigo na lista!`);
         } else {
-            listaAmigos.push(nome);
-            exibirTextoNaTela("h2", "Incluia outro amigo!");
-            exibirTextoNaTela("ul", listaAmigos.join(", "));
-            console.log(`Lista Amidos: ${listaAmigos}`);
+            listaAmigos.push(amigo);
+            exibirTextoNaTela("h2", "Inclua outro amigo!");
+            exibirListaDeAmigos(); // Atualizar a lista exibida na tela
+            console.log(`Lista Amigos: ${listaAmigos}`);
         }
     }
     limparCampo();
